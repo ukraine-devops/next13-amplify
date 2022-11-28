@@ -1,13 +1,11 @@
 name: Publish Docker image
 
 on:
-  push:
-    tags:        
-      - v1.*
-      - v2.*
+  release:
+    types: [published]
 
 jobs:
-  push_to_registries:
+  push_to_dockerhub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-22.04
     steps:
@@ -21,6 +19,9 @@ jobs:
           images: |
             levpa/next13-amplify
           tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
 
       - name: Login to Docker Hub
