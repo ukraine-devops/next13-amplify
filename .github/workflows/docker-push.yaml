@@ -2,7 +2,10 @@ name: Publish Docker image
 
 on:
   push:
-    branches: ['main']
+    branches:    
+      - main
+    tags:        
+      - v1.*
 
 jobs:
   push_to_registries:
@@ -12,11 +15,17 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Docker metadata
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: levpa/next13-amplify
+          images: |
+            levpa/next13-amplify
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
