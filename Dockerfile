@@ -13,6 +13,11 @@ RUN npm install -g npm@9.1.2
 RUN npm run build
 
 FROM node:18-alpine AS runner
+
+LABEL org.opencontainers.image.source=https://github.com/ukraine-devops/next13-amplify
+LABEL org.opencontainers.image.description="NextJS 13 frontend image"
+LABEL org.opencontainers.image.licenses=MIT
+
 WORKDIR /app
 ENV NODE_ENV production
 RUN addgroup --system --gid 1001 bloggroup
@@ -25,6 +30,8 @@ COPY --from=builder --chown=bloguser:bloggroup /app/.next/static ./.next/static
 
 USER bloguser
 EXPOSE 3000
+
 ENV PORT 3000
 ENV NEXT_TELEMETRY_DISABLED 1
+
 CMD ["node", "server.js"]
