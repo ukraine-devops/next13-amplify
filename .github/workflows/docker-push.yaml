@@ -17,7 +17,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            levpa/next13-amplify
+            levpa/my-project/front-next
           tags: |
             type=ref,event=branch
             type=ref,event=pr
